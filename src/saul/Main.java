@@ -10,8 +10,8 @@ public class Main {
 		public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		
-		int tam=0, cantBar=0,fila=0,columna=0,fila2=0,columna2=0,barDest=0,contAta=0,barcoAtac=0;
-		String coordenada1, coordenada2;
+		int tam=0, cantBar=0,fila=0,columna=0,fila2=0,columna2=0,barDest=0,contAta=0,coor=-1;
+		String coordenada1, coordenada2,barcoAtac="";
 		boolean salida = false;
 		
 		
@@ -150,8 +150,8 @@ public class Main {
 		matriz[fila][columna]=" 1";	
 		matriz[fila2][columna2]=" 1";
 		confirm = true;
-		barcos[i] = new Naves (coordenada1,coordenada2);
-	    
+		barcos[i] = new Naves (coordenada1,coordenada2," %100");
+		
 	    
 		}while(confirm == false);
 		
@@ -179,27 +179,40 @@ public class Main {
 		}
 		contAta++;
 		
-		barcoAtac=Operaciones.ataques(coordenada1,barcos);
-		if( -1 != barcoAtac){
-			
+		
+		barcoAtac=Operaciones.ataque(coordenada1,barcos);
+		
+		if( barcoAtac == "destruido"){
+			System.out.println("BARCO DESTRUIDO");
 			cantBar--;
 			barDest++;
-			fila=(Operaciones.obtenerFila(barcos[barcoAtac].getCoordenada1()));
-			columna=(Operaciones.obtenerColumna(barcos[barcoAtac].getCoordenada1()));
-			fila2=(Operaciones.obtenerFila(barcos[barcoAtac].getCoordenada2()));
-			columna2=(Operaciones.obtenerColumna(barcos[barcoAtac].getCoordenada2()));
-			barcos[barcoAtac].setCoordenada1("BARCO");
-			barcos[barcoAtac].setCoordenada2("DESTRUIDO");
+				
+			    coor =Operaciones.borrarMatriz(barcos);
+			    
+				fila=(Operaciones.obtenerFila(barcos[coor].getCoordenada1()));
+				columna=(Operaciones.obtenerColumna(barcos[coor].getCoordenada1()));
+				fila2=(Operaciones.obtenerFila(barcos[coor].getCoordenada2()));
+				columna2=(Operaciones.obtenerColumna(barcos[coor].getCoordenada2()));
+				
+				
+				matriz[fila][columna]=" 0";	
+				matriz[fila2][columna2]=" 0";
+				System.out.println("");
+				Operaciones.mostrar2(barcos);
+				Operaciones.mostrar(matriz);
+				System.out.println("");
 			
-			matriz[fila][columna]=" 0";	
-			matriz[fila2][columna2]=" 0";
-			System.out.println("");
-			Operaciones.mostrar2(barcos);
-			System.out.println("");
-			Operaciones.mostrar(matriz);
-			System.out.println("");
+			
+			
 		}else{
+			if(barcoAtac == "acertado"){
+								
+			System.out.println("ATAQUE ACERTADO PERO NO DESTRUIDO");
+		}else{
+			if(barcoAtac == null){
 			System.out.println("ATAQUE FALLIDO");
+		}
+		}
 		}
 		
 		
